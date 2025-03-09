@@ -1,34 +1,63 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';  // Importing the AuthContext to get the logout function
-import './Header.css';  // Import the styles
+import { useAuth } from './AuthContext';
+import './Header.css';
 
 const Header = () => {
-  const { user, logout } = useAuth();  // Accessing the user and logout function from context
-  const navigate = useNavigate();  // Hook to programmatically navigate after logout
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();  // Call the logout function from context
-    navigate('/login');  // Redirect to the login page after logout
+    logout();
+    navigate('/login');
   };
 
   return (
-    <div>
-      <nav>
-        <Link to="/home">Home</Link>
-        {user ? (
-          <>
-            <Link to="/profile">Profile</Link>  {/* Only show the Profile link if the user is logged in */}
-            <button onClick={handleLogout}>Logout</button>  {/* Logout button */}
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>  {/* Show login link if user is not logged in */}
-            <Link to="/register">Register</Link>  {/* Register link */}
-          </>
-        )}
-      </nav>
-    </div>
+    <header className="site-header">
+      <div className="header-container">
+        <div className="logo-section">
+          <Link to="/" className="logo-link">
+            <img src="frontend/public/logo192.png" alt="Logo" className="site-logo" />
+            Bytely
+          </Link>
+        </div>
+        
+        <div className="search-section">
+          <div className="search-container">
+            <input 
+              type="text" 
+              className="search-input" 
+              placeholder="Search posts, topics, or users..."
+            />
+            <button className="search-button">🔍</button>
+          </div>
+        </div>
+        
+        <nav className="navigation-section">
+          {user ? (
+            <>
+              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/profile" className="nav-link">Profile</Link>
+              <div className="user-menu">
+                <div className="user-avatar">
+                  {(user?.name || user?.email?.charAt(0) || 'U').toUpperCase()}
+                </div>
+                <div className="dropdown-content">
+                  <Link to="/profile" className="dropdown-item">My Profile</Link>
+                  <Link to="/settings" className="dropdown-item">Settings</Link>
+                  <button onClick={handleLogout} className="dropdown-item logout">Logout</button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link login-button">Login</Link>
+              <Link to="/register" className="nav-link register-button">Sign Up</Link>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
   );
 };
 

@@ -1,0 +1,279 @@
+/* Main container with ocean blue sides */
+.home-page-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(to right, #1a77c2 10%, white 10% 90%, #1a77c2 90%);
+}
+
+/* Center content area */
+.home-content {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Home header section */
+.home-header {
+  padding: 20px 0;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.home-header h1 {
+  font-size: 2.2rem;
+  color: #1a77c2;
+  margin: 0 0 10px 0;
+}
+
+.welcome-message {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Tab navigation */
+.home-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  margin: 0 5px;
+  font-size: 1rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+  color: #1a77c2;
+}
+
+.tab-button.active {
+  color: #1a77c2;
+  border-bottom: 3px solid #1a77c2;
+  font-weight: 600;
+}
+
+/* Main content layout */
+.home-main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.posts-container {
+  flex: 7;
+}
+
+.home-sidebar {
+  flex: 3;
+}
+
+/* Post cards */
+.post-card {
+  display: flex;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.post-votes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 10px;
+  background-color: #f0f0f0;
+  min-width: 50px;
+}
+
+.vote-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.vote-button.up:hover {
+  color: #ff4500;
+}
+
+.vote-button.down:hover {
+  color: #7193ff;
+}
+
+.vote-count {
+  margin: 5px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.post-content {
+  padding: 15px;
+  flex: 1;
+}
+
+.post-title {
+  margin: 0 0 8px 0;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0 0 10px 0;
+}
+
+.post-excerpt {
+  color: #333;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+}
+
+.post-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.post-action-button {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.post-action-button:hover {
+  color: #1a77c2;
+}
+
+.action-icon {
+  margin-right: 5px;
+}
+
+/* Sidebar styling */
+.sidebar-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+.sidebar-stats {
+  display: flex;
+  margin: 15px 0;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1a77c2;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.create-post-button {
+  width: 100%;
+  background-color: #1a77c2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.create-post-button:hover {
+  background-color: #0d5fa0;
+}
+
+.rules-list {
+  margin: 10px 0;
+  padding-left: 25px;
+}
+
+.rules-list li {
+  margin-bottom: 8px;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-page-container {
+    background: white;
+  }
+  
+  .home-content {
+    width: 100%;
+    padding: 15px;
+  }
+  
+  .home-main-content {
+    flex-direction: column;
+  }
+  
+  .post-card {
+    flex-direction: column;
+  }
+  
+  .post-votes {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .vote-button.up {
+    order: 1;
+  }
+  
+  .vote-count {
+    order: 2;
+    margin: 0 10px;
+  }
+  
+  .vote-button.down {
+    order: 3;
+  }
+}

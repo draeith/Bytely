@@ -42,7 +42,7 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <h2 className="profile-username">{user?.name || 'Username'}</h2>
+          <h2 className="profile-username">{user?.username || 'Anonymous Bytely User'}</h2>
         </div>
 
         <div className="profile-tabs">

@@ -11,12 +11,12 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(''); // State to store the error message
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Check for authentication status on page load
   useEffect(() => {
     axios
-      .get('http://localhost:5000/current_user', { withCredentials: true }) // Send cookies
+      .get('http://localhost:5000/current_user', { withCredentials: true })
       .then((response) => {
         setUser(response.data.user);
       })
@@ -25,7 +25,31 @@ export const AuthProvider = ({ children }) => {
       });
   }, []);
 
-  // Register function with username
+  // Login function
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/login',
+        { email, password },
+        { withCredentials: true }
+      );
+
+      // If login is successful, set user and clear any previous error message
+      setUser(response.data.user);
+      setErrorMessage('');
+    } catch (err) {
+      console.error('Login error:', err);
+
+      // If error response exists, set the error message from the backend
+      if (err.response && err.response.data && err.response.data.message) {
+        setErrorMessage(err.response.data.message);
+      } else {
+        setErrorMessage('Something went wrong');
+      }
+    }
+  };
+
+  // Register function with username support
   const register = async (email, password, username) => {
     try {
       const response = await axios.post(
@@ -33,42 +57,40 @@ export const AuthProvider = ({ children }) => {
         { email, password, username },
         { withCredentials: true }
       );
+      
+      // Set user after successful registration
       setUser(response.data);
       setErrorMessage('');
-      return response.data;
     } catch (err) {
-      console.error('Registration error:', err);
-      if (err.response?.data?.message) {
+      console.error('Register error:', err);
+      if (err.response && err.response.data && err.response.data.message) {
         setErrorMessage(err.response.data.message);
       } else {
-        setErrorMessage('Something went wrong');
+        setErrorMessage('Error creating account');
       }
-      throw err;
     }
   };
 
-  // Login function
-  const login = async (email, password) => {
+  // Update username function
+  const updateUsername = async (username) => {
     try {
-      const response = await axios.post(
-        'http://localhost:5000/login',
-        { email, password },
-        { withCredentials: true } // Send cookies
+      const response = await axios.put(
+        'http://localhost:5000/update_username',
+        { username },
+        { withCredentials: true }
       );
-
-      // If login is successful, set user and clear any previous error message
-      setUser(response.data.user);
-      setErrorMessage(''); // Clear error message if login is successful
+      
+      // Update the user state with the new username
+      setUser(prev => ({ ...prev, username }));
+      return true;
     } catch (err) {
-      // Handle errors based on the response from the backend
-      console.error('Login error:', err);
-
-      // If error response exists, set the error message from the backend
+      console.error('Username update error:', err);
       if (err.response && err.response.data && err.response.data.message) {
-        setErrorMessage(err.response.data.message); // Set the backend error message
+        setErrorMessage(err.response.data.message);
       } else {
-        setErrorMessage('Something went wrong'); // Generic fallback message
+        setErrorMessage('Failed to update username');
       }
+      return false;
     }
   };
 
@@ -76,15 +98,22 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
-      setUser(null);  // Clear the user state after logging out
-      setErrorMessage(''); // Clear any error message after logout
+      setUser(null);
+      setErrorMessage('');
     } catch (err) {
       console.error('Logout error:', err);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, errorMessage }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      logout, 
+      register, 
+      updateUsername,
+      errorMessage 
+    }}>
       {children}
     </AuthContext.Provider>
   );

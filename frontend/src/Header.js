@@ -17,7 +17,7 @@ const Header = () => {
       <div className="header-container">
         <div className="logo-section">
           <Link to="/" className="logo-link">
-            <img src="frontend/public/logo192.png" alt="Logo" className="site-logo" />
+            <img src="/logo192.png" alt="Logo" className="site-logo" />
             Bytely
           </Link>
         </div>
@@ -40,7 +40,7 @@ const Header = () => {
               <Link to="/profile" className="nav-link">Profile</Link>
               <div className="user-menu">
                 <div className="user-avatar">
-                  {(user?.name || user?.email?.charAt(0) || 'U').toUpperCase()}
+                  {(user?.username?.[0] || user?.email?.[0] || 'U').toUpperCase()}
                 </div>
                 <div className="dropdown-content">
                   <Link to="/profile" className="dropdown-item">My Profile</Link>

@@ -25,6 +25,28 @@ export const AuthProvider = ({ children }) => {
       });
   }, []);
 
+  // Register function with username
+  const register = async (email, password, username) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/register',
+        { email, password, username },
+        { withCredentials: true }
+      );
+      setUser(response.data);
+      setErrorMessage('');
+      return response.data;
+    } catch (err) {
+      console.error('Registration error:', err);
+      if (err.response?.data?.message) {
+        setErrorMessage(err.response.data.message);
+      } else {
+        setErrorMessage('Something went wrong');
+      }
+      throw err;
+    }
+  };
+
   // Login function
   const login = async (email, password) => {
     try {
@@ -62,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, errorMessage }}>
+    <AuthContext.Provider value={{ user, login, logout, register, errorMessage }}>
       {children}
     </AuthContext.Provider>
   );

@@ -244,6 +244,25 @@
     background: white;
   }
   
+
+.vote-button.up.active {
+  color: #FF4500;
+}
+
+.vote-button.down.active {
+  color: #7193FF;
+}
+
+.vote-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+
   .home-content {
     width: 100%;
     padding: 15px;

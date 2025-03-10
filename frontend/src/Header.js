@@ -36,15 +36,18 @@ const Header = () => {
         <nav className="navigation-section">
           {user ? (
             <>
+              <button className="create-post-button nav-link">Create</button>
               <Link to="/" className="nav-link">Home</Link>
-              <Link to="/profile" className="nav-link">Profile</Link>
+              {/* Link to the user's public profile, not the profile dashboard */}
+              <Link to={`/user/${user.username || 'user'}`} className="nav-link">My Posts</Link>
               <div className="user-menu">
                 <div className="user-avatar">
                   {(user?.username?.[0] || user?.email?.[0] || 'U').toUpperCase()}
                 </div>
                 <div className="dropdown-content">
-                  <Link to="/profile" className="dropdown-item">My Profile</Link>
-                  <Link to="/settings" className="dropdown-item">Settings</Link>
+                  <Link to={`/user/${user.username || 'user'}`} className="dropdown-item">Public Profile</Link>
+                  {/* Removed Dashboard link - we don't need it anymore! */}
+                  <Link to="/settings" className="dropdown-item">Account Settings</Link>
                   <button onClick={handleLogout} className="dropdown-item logout">Logout</button>
                 </div>
               </div>

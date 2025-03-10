@@ -99,6 +99,26 @@
   font-weight: 500;
 }
 
+/* Create post button in header */
+.create-post-button.nav-link {
+  background-color: #FF4500;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-left: 0;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.create-post-button.nav-link:hover {
+  background-color: #E03D00;
+  opacity: 1;
+}
+
 /* User menu */
 .user-menu {
   position: relative;

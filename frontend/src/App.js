@@ -3,35 +3,45 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
-import Profile from './Profile'; // Import Profile component
-import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute component
-import { useAuth } from './AuthContext';  // Access the current user
-import Header from './Header';  // Import the Header component
+import Profile from './Profile'; // Will be used only for logged-in user's own profile
+import UserProfile from './UserProfile'; // New component for viewing other users
+import Settings from './Settings'; // New settings component
+import ProtectedRoute from './ProtectedRoute';
+import { useAuth } from './AuthContext';
+import Header from './Header';
 
 function App() {
-  const { user } = useAuth();  // Get the current user from context
+  const { user } = useAuth();
 
   return (
     <Router>
-      {/* Add Header here so it shows up on every page */}
-      <Header /> 
+      <Header />
 
       <Routes>
-        <Route path="/" element={<Home />} />  {/* Home page, no protection needed */}
-        <Route path="/login" element={<Login />} />  {/* Login page */}
-        <Route path="/register" element={<Register />} />  {/* Register page */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        {/* Protected route for the user profile/dashboard */}
+        {/* Protected routes */}
         <Route
           path="/profile"
           element={
             <ProtectedRoute>
-              <Profile />  {/* Profile page accessible only by authenticated users */}
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* New settings route */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />
 
-        {/* Optionally, you can have the /home route as a protected page or for logged-in users */}
         <Route
           path="/home"
           element={
@@ -40,6 +50,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+        
+        {/* Public user profile route */}
+        <Route path="/user/:username" element={<UserProfile />} />
       </Routes>
     </Router>
   );

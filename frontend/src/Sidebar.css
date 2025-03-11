@@ -1,41 +1,56 @@
 .sidebar {
   position: fixed;
   left: 0;
-  top: 60px; /* Height of your header */
+  top: 60px;
   height: calc(100vh - 60px);
   width: 250px;
   background-color: var(--bg-secondary);
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 99;
   overflow-y: auto;
   border-right: 1px solid var(--border-color);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Collapsed state */
+/* Now you see me, now you don't */
 .sidebar.collapsed {
-  width: 50px;
+  width: 0;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 
+/* Magic floating button */
 .collapse-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: var(--accent-color);
-  color: white;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  z-index: 2;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: left 0.3s ease;
+}
+
+/* Button teleportation when sidebar appears */
+.sidebar:not(.collapsed) .collapse-button {
+  left: 250px;
 }
 
 .sidebar-content {
-  padding: 50px 0 20px;
+  padding: 20px 0;
+  width: 250px;
 }
 
 .sidebar-navigation {
@@ -158,14 +173,30 @@
   font-style: italic;
 }
 
-/* Dark mode adjustments */
-[data-theme='dark'] .sidebar {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+/* Full-width content when sidebar is hiding */
+.sidebar.collapsed ~ .page-content {
+  margin-left: 0 !important;
+}
+
+.sidebar:not(.collapsed) ~ .page-content {
+  margin-left: 250px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .sidebar {
     width: 220px;
+  }
+  
+  .sidebar-content {
+    width: 220px;
+  }
+  
+  .sidebar:not(.collapsed) .collapse-button {
+    left: 230px;
+  }
+  
+  .sidebar:not(.collapsed) ~ .page-content {
+    margin-left: 220px;
   }
 }

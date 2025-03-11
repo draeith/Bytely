@@ -234,6 +234,121 @@ app.get('/api/users/:username', async (req, res) => {
   }
 });
 
+// Community routes
+const { 
+  createCommunity, 
+  getCommunityByName, 
+  getUserCommunities,
+  getRecentCommunities,
+  recordCommunityVisit
+} = require('./models/Community');
+
+// Create a new community
+app.post('/api/communities', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name, description } = req.body;
+    
+    // Validate community name
+    if (!name || !/^[a-zA-Z0-9_]{3,21}$/.test(name)) {
+      return res.status(400).json({ 
+        message: 'Community name must be 3-21 characters and contain only letters, numbers, and underscores' 
+      });
+    }
+    
+    // Check if community name is already taken
+    const existingCommunity = await getCommunityByName(name);
+    if (existingCommunity) {
+      return res.status(400).json({ message: 'Community name already exists' });
+    }
+    
+    const newCommunity = await createCommunity(name, description || '', userData.id);
+    res.status(201).json(newCommunity);
+  } catch (err) {
+    console.error('Error creating community:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get user's communities
+app.get('/api/my-communities', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const communities = await getUserCommunities(userData.id);
+    res.json(communities);
+  } catch (err) {
+    console.error('Error getting user communities:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get user's recent communities
+app.get('/api/recent-communities', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const communities = await getRecentCommunities(userData.id);
+    res.json(communities);
+  } catch (err) {
+    console.error('Error getting recent communities:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get community by name
+app.get('/api/communities/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const community = await getCommunityByName(name);
+    
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    res.json(community);
+  } catch (err) {
+    console.error('Error getting community:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Record a community visit
+app.post('/api/community-visit/:communityId', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { communityId } = req.params;
+    
+    await recordCommunityVisit(communityId, userData.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error recording community visit:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

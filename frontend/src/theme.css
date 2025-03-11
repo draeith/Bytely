@@ -1,0 +1,45 @@
+:root {
+  /* Light mode (default) */
+  --bg-primary: white;
+  --bg-secondary: #f8f9fa;
+  --bg-sidebar: #1a77c2;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --border-color: #e0e0e0;
+  --accent-color: #1a77c2;
+  --accent-hover: #0d5fa0;
+  --upvote-color: #FF4500;
+  --downvote-color: #7193FF;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --header-bg: #000000;
+  --header-text: white;
+}
+
+[data-theme='dark'] {
+  /* Dark mode */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-sidebar: #0d5fa0;
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --border-color: #444444;
+  --accent-color: #3a97e2;
+  --accent-hover: #5eb1f5;
+  --upvote-color: #ff6a33;
+  --downvote-color: #8da6ff;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --header-bg: #121212;
+  --header-text: #e0e0e0;
+}
+
+/* Apply these variables to global elements */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Let's add transitions for smooth theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}

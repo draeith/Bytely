@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
+import { useTheme } from './ThemeContext';
 import './Settings.css';
 
 const Settings = () => {
   const { user } = useAuth();
+  const { theme, setThemePreference } = useTheme();
   const [newEmail, setNewEmail] = useState(user?.email || '');
   const [newName, setNewName] = useState(user?.name || '');
   const [successMessage, setSuccessMessage] = useState('');
@@ -18,6 +20,11 @@ const Settings = () => {
     setTimeout(() => {
       setSuccessMessage('');
     }, 3000);
+  };
+
+  // Handle theme change
+  const handleThemeChange = (e) => {
+    setThemePreference(e.target.value);
   };
 
   return (
@@ -63,7 +70,11 @@ const Settings = () => {
           <div className="settings-card">
             <div className="settings-item">
               <label>Theme</label>
-              <select className="settings-input">
+              <select 
+                className="settings-input"
+                value={theme}
+                onChange={handleThemeChange}
+              >
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
                 <option value="auto">Auto (follow system)</option>

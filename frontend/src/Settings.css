@@ -1,7 +1,7 @@
 .settings-page-container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(to right, #1a77c2 10%, white 10% 90%, #1a77c2 90%);
+  background: linear-gradient(to right, var(--bg-sidebar) 10%, var(--bg-primary) 10% 90%, var(--bg-sidebar) 90%);
 }
 
 .settings-content {
@@ -9,16 +9,16 @@
   max-width: 800px;
   margin: 40px auto;
   padding: 30px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-primary);
+  box-shadow: var(--card-shadow);
   border-radius: 8px;
 }
 
 .settings-content h2 {
   font-size: 1.8rem;
   margin-bottom: 30px;
-  color: #333;
-  border-bottom: 1px solid #eee;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 15px;
 }
 
@@ -29,14 +29,14 @@
 .settings-section h3 {
   font-size: 1.3rem;
   margin-bottom: 15px;
-  color: #444;
+  color: var(--text-primary);
 }
 
 .settings-card {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
 }
 
 .settings-item {
@@ -46,7 +46,7 @@
 .settings-item label {
   display: block;
   font-size: 1rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
@@ -64,9 +64,10 @@
   width: 100%;
   padding: 10px;
   font-size: 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  background-color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .settings-button {
@@ -80,16 +81,16 @@
 }
 
 .settings-button.save {
-  background-color: #1a77c2;
+  background-color: var(--accent-color);
   color: white;
 }
 
 .settings-button.save:hover {
-  background-color: #0d5fa0;
+  background-color: var(--accent-hover);
 }
 
 .settings-button.danger {
-  background-color: #fff;
+  background-color: var(--bg-primary);
   color: #e53935;
   border: 1px solid #e53935;
 }
@@ -113,7 +114,7 @@
 
 @media (max-width: 768px) {
   .settings-page-container {
-    background: white;
+    background: var(--bg-primary);
   }
   
   .settings-content {

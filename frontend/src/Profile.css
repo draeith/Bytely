@@ -1,8 +1,8 @@
-/* Main container with ocean blue sides */
+/* Main container with themed sides */
 .profile-page-container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(to right, #1a77c2 10%, white 10% 90%, #1a77c2 90%);
+  background: linear-gradient(to right, var(--bg-sidebar) 10%, var(--bg-primary) 10% 90%, var(--bg-sidebar) 90%);
 }
 
 /* Center content area */
@@ -10,8 +10,8 @@
   width: 80%;
   margin: 0 auto;
   padding: 40px 20px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-primary);
+  box-shadow: var(--card-shadow);
 }
 
 /* Profile header with avatar and username */
@@ -41,7 +41,7 @@
 .avatar-placeholder {
   width: 100%;
   height: 100%;
-  background-color: #1a77c2;
+  background-color: var(--accent-color);
   color: white;
   display: flex;
   justify-content: center;
@@ -54,7 +54,7 @@
 .profile-username {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -63,7 +63,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 30px;
 }
 
@@ -73,19 +73,19 @@
   padding: 12px 20px;
   margin: 0 5px;
   font-size: 1rem;
-  color: #666;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
   border-bottom: 3px solid transparent;
 }
 
 .tab-button:hover {
-  color: #1a77c2;
+  color: var(--accent-color);
 }
 
 .tab-button.active {
-  color: #1a77c2;
-  border-bottom: 3px solid #1a77c2;
+  color: var(--accent-color);
+  border-bottom: 3px solid var(--accent-color);
   font-weight: 600;
 }
 
@@ -96,15 +96,15 @@
 
 .profile-info-section h3 {
   font-size: 1.4rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 20px;
 }
 
 .profile-info-card {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
 }
 
 /* Profile items styling */
@@ -115,13 +115,13 @@
 .profile-item strong {
   display: block;
   font-size: 1rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 5px;
 }
 
 .profile-item p {
   font-size: 1.1rem;
-  color: #333;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -129,8 +129,10 @@
   width: 100%;
   padding: 10px;
   font-size: 1.1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 /* Action buttons */
@@ -152,12 +154,12 @@
 }
 
 .edit {
-  background-color: #1a77c2;
+  background-color: var(--accent-color);
   color: white;
 }
 
 .edit:hover {
-  background-color: #0d5fa0;
+  background-color: var(--accent-hover);
 }
 
 .save {
@@ -182,14 +184,14 @@
 .placeholder-content {
   text-align: center;
   padding: 50px 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.1rem;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .profile-page-container {
-    background: white;
+    background: var(--bg-primary);
   }
   
   .profile-content {

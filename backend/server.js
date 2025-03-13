@@ -240,7 +240,14 @@ const {
   getCommunityByName, 
   getUserCommunities,
   getRecentCommunities,
-  recordCommunityVisit
+  recordCommunityVisit,
+  getUserMembership,
+  joinCommunity,
+  leaveCommunity,
+  updateModLevel,
+  transferOwnership,
+  removeUser,
+  getCommunityModerators
 } = require('./models/Community');
 
 // Create a new community

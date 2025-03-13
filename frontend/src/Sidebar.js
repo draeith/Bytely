@@ -101,10 +101,13 @@ const Sidebar = () => {
     }
     
     try {
+      console.log('Creating community:', communityName, communityDescription);
       const response = await axios.post('http://localhost:5000/api/communities', {
         name: communityName,
         description: communityDescription
       }, { withCredentials: true });
+      
+      console.log('Community created:', response.data);
       
       // Refresh communities lists
       fetchUserCommunities();
@@ -115,6 +118,7 @@ const Sidebar = () => {
       setCommunityDescription('');
       setShowCreateCommunity(false);
     } catch (error) {
+      console.error('Error creating community:', error);
       if (error.response && error.response.data && error.response.data.message) {
         setErrorMessage(error.response.data.message);
       } else {

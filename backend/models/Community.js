@@ -3,12 +3,28 @@ const pool = require('../database');
 // Create a new community
 const createCommunity = async (name, description, creatorId) => {
   try {
+    // Start a transaction
+    await pool.query('BEGIN');
+    
+    // Create the community
     const result = await pool.query(
       'INSERT INTO communities (name, description, creator_id, created_at) VALUES ($1, $2, $3, NOW()) RETURNING *',
       [name, description, creatorId]
     );
+    
+    // Add creator as moderator and member
+    await pool.query(
+      'INSERT INTO community_members (community_id, user_id, is_moderator, joined_at) VALUES ($1, $2, TRUE, NOW())',
+      [result.rows[0].id, creatorId]
+    );
+    
+    // Commit the transaction
+    await pool.query('COMMIT');
+    
     return result.rows[0];
   } catch (error) {
+    // Rollback in case of error
+    await pool.query('ROLLBACK');
     console.error('Error creating community:', error);
     throw error;
   }

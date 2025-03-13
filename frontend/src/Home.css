@@ -89,7 +89,8 @@
 }
 
 .post-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-hover);
+  box-shadow: 0 4px 8px rgba(243, 0, 0, 0.767);
   transform: translateY(-2px);
 }
 

@@ -132,9 +132,6 @@
   transition: background-color 0.2s;
 }
 
-.post-card:hover {
-  background-color: var(--bg-primary);
-}
 
 .post-votes {
   display: flex;

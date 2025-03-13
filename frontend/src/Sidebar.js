@@ -5,7 +5,10 @@ import axios from 'axios';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Get state from localStorage or default to false
+    return localStorage.getItem('sidebarCollapsed') === 'true';
+  });
   const [showCreateCommunity, setShowCreateCommunity] = useState(false);
   const [communityName, setCommunityName] = useState('');
   const [communityDescription, setCommunityDescription] = useState('');
@@ -75,7 +78,9 @@ const Sidebar = () => {
   };
 
   const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
+    const newState = !isCollapsed;
+    setIsCollapsed(newState);
+    localStorage.setItem('sidebarCollapsed', newState.toString());
   };
 
   const handleCreateCommunity = async (e) => {

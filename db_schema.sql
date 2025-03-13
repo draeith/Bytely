@@ -22,7 +22,7 @@ CREATE TABLE community_members (
   id SERIAL PRIMARY KEY,
   community_id INT REFERENCES communities(id) ON DELETE CASCADE,
   user_id INT REFERENCES users(id) ON DELETE CASCADE,
-  is_moderator BOOLEAN DEFAULT FALSE,
+  mod_level INT DEFAULT 0 CHECK (mod_level >= 0 AND mod_level <= 3), -- 0=regular member, 1=helper mod, 2=head mod, 3=owner
   joined_at TIMESTAMP NOT NULL DEFAULT NOW(),
   UNIQUE(community_id, user_id)
 );

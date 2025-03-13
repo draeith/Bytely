@@ -6,12 +6,13 @@ import Home from './Home';
 import Profile from './Profile';
 import UserProfile from './UserProfile';
 import Settings from './Settings';
-import Community from './Community'; // Import the Community component
+import Community from './Community';
+import ModTools from './ModTools'; // Add this import
 import ProtectedRoute from './ProtectedRoute';
 import { useAuth } from './AuthContext';
 import Header from './Header';
-import Sidebar from './Sidebar'; // Import the Sidebar component
-import './App.css'; // Make sure to update this
+import Sidebar from './Sidebar';
+import './App.css';
 
 function App() {
   const { user } = useAuth();
@@ -59,8 +60,16 @@ function App() {
               {/* Public user profile route */}
               <Route path="/user/:username" element={<UserProfile />} />
               
-              {/* Community route */}
+              {/* Community routes */}
               <Route path="/b/:communityName" element={<Community />} />
+              <Route
+                path="/b/:communityName/mod"
+                element={
+                  <ProtectedRoute>
+                    <ModTools />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </div>
         </div>

@@ -216,6 +216,40 @@
   margin-bottom: 15px;
 }
 
+
+
+/* Mod tools */
+.mod-tools {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 10px;
+}
+
+.mod-tools:hover {
+  background-color: #e03d00;
+}
+
+/* Action buttons container */
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.action-buttons {
+  display: flex;
+}
+
+
+
 /* Community sidebar */
 .community-sidebar {
   display: flex;
@@ -282,3 +316,6 @@
     gap: 20px;
   }
 }
+
+
+

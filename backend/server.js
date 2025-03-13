@@ -353,3 +353,209 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+app.get('/api/communities/:name/membership', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(200).json({ isMember: false, isModerator: false, isOwner: false });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name } = req.params;
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    // Get user's membership status
+    const { 
+      isMember, 
+      isOwner, 
+      isHeadMod, 
+      isHelperMod, 
+      isModerator, 
+      modLevel 
+    } = await getUserMembership(community.id, userData.id);
+    
+    res.json({ 
+      isMember, 
+      isOwner, 
+      isHeadMod, 
+      isHelperMod, 
+      isModerator, 
+      modLevel 
+    });
+  } catch (err) {
+    console.error('Error checking membership:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Join a community
+app.post('/api/communities/:name/join', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name } = req.params;
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    await joinCommunity(community.id, userData.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error joining community:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Leave a community
+app.post('/api/communities/:name/leave', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name } = req.params;
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    await leaveCommunity(community.id, userData.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error leaving community:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    if (err.message === 'Community owner cannot leave. Transfer ownership first.') {
+      return res.status(400).json({ message: err.message });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get moderators of a community
+app.get('/api/communities/:name/moderators', async (req, res) => {
+  try {
+    const { name } = req.params;
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    const moderators = await getCommunityModerators(community.id);
+    res.json(moderators);
+  } catch (err) {
+    console.error('Error getting moderators:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Update mod level
+app.post('/api/communities/:name/mod/:userId', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name, userId } = req.params;
+    const { modLevel } = req.body;
+    
+    // Validate modLevel
+    if (![0, 1, 2].includes(modLevel)) {
+      return res.status(400).json({ message: 'Invalid mod level' });
+    }
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    await updateModLevel(community.id, userId, modLevel, userData.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error updating mod level:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    if (err.message.includes('Insufficient permissions') || 
+        err.message.includes('Only owners can promote')) {
+      return res.status(403).json({ message: err.message });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Transfer ownership
+app.post('/api/communities/:name/transfer-ownership/:newOwnerId', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name, newOwnerId } = req.params;
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    await transferOwnership(community.id, newOwnerId, userData.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error transferring ownership:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: err.message || 'Server error' });
+  }
+});
+
+// Remove user from community
+app.delete('/api/communities/:name/users/:userId', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const userData = jwt.verify(token, process.env.JWT_SECRET);
+    const { name, userId } = req.params;
+    
+    // Get community ID
+    const community = await getCommunityByName(name);
+    if (!community) {
+      return res.status(404).json({ message: 'Community not found' });
+    }
+    
+    await removeUser(community.id, userId, userData.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error removing user:', err);
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    if (err.message.includes('Insufficient permissions')) {
+      return res.status(403).json({ message: err.message });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});

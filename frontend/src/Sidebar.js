@@ -155,8 +155,28 @@ const Sidebar = () => {
             
             {user && (
               <>
+                {recentCommunities.length > 0 && (
+                  <>
+                    <div className="nav-section-header">
+                      <h3>RECENT</h3>
+                    </div>
+                    <div className="nav-section">
+                      {recentCommunities.map(community => (
+                        <Link 
+                          key={community.id} 
+                          to={`/b/${community.name}`} 
+                          className="nav-item"
+                        >
+                          <span className="nav-icon">b/</span>
+                          <span className="nav-text">{community.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+                
                 <div className="nav-section-header">
-                  <h3>YOUR COMMUNITIES</h3>
+                  <h3>MY COMMUNITIES</h3>
                 </div>
                 <div className="nav-section">
                   <button 
@@ -220,26 +240,6 @@ const Sidebar = () => {
                     </div>
                   )}
                 </div>
-                
-                {recentCommunities.length > 0 && (
-                  <>
-                    <div className="nav-section-header">
-                      <h3>RECENT</h3>
-                    </div>
-                    <div className="nav-section">
-                      {recentCommunities.map(community => (
-                        <Link 
-                          key={community.id} 
-                          to={`/b/${community.name}`} 
-                          className="nav-item"
-                        >
-                          <span className="nav-icon">b/</span>
-                          <span className="nav-text">{community.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                )}
               </>
             )}
           </nav>

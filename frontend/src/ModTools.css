@@ -1,0 +1,189 @@
+.mod-tools-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+
+.mod-tools-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mod-tools-header h1 {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin: 0 0 10px 0;
+}
+
+.mod-tools-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.mod-tools-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  margin-right: 10px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+  color: var(--accent-color);
+}
+
+.tab-button.active {
+  color: var(--accent-color);
+  border-bottom: 3px solid var(--accent-color);
+  font-weight: 600;
+}
+
+.mod-tools-content {
+  background-color: var(--bg-primary);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.members-tab h2, .moderators-tab h2, .ownership-tab h2 {
+  font-size: 1.4rem;
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: var(--text-primary);
+}
+
+.member-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Button styles */
+.member-actions button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.promote {
+  background-color: #4caf50;
+  color: white;
+}
+
+.promote:hover {
+  background-color: #43a047;
+}
+
+.demote {
+  background-color: #ff9800;
+  color: white;
+}
+
+.demote:hover {
+  background-color: #f57c00;
+}
+
+.remove {
+  background-color: #f44336;
+  color: white;
+}
+
+.remove:hover {
+  background-color: #e53935;
+}
+
+/* Transfer ownership form */
+.warning {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.transfer-form {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.transfer-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.transfer-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Loading and error states */
+.loading, .error-message {
+  padding: 40px;
+  text-align: center;
+}
+
+.error-message {
+  color: #f44336;
+}
